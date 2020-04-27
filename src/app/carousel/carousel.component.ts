@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
+import Swiper from 'swiper';
 
 @Component({
   selector: 'app-carousel',
@@ -13,7 +14,16 @@ export class CarouselComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 3,
+      spaceBetween: 40,
+	  centeredSlides: true,
+	  loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
 
 
   }

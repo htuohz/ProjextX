@@ -4,7 +4,7 @@ import { icon, Marker } from 'leaflet';
 import { element } from 'protractor';
 
 
-const iconUrl = '/assets/203-2036956_location-map-pins-png-pin-icon-clipart.png';
+const iconUrl = 'assets/203-2036956_location-map-pins-png-pin-icon-clipart.png';
 
 const iconDefault = icon({
 

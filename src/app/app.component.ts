@@ -11,8 +11,6 @@ export class AppComponent {
   title = 'travelApp'
 
   onChange(notes){
-    console.log(this.selectedNotes);
     this.selectedNotes = notes;
-    console.log(this.selectedNotes);
   }
 }

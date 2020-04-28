@@ -1,37 +1,35 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, EventEmitter, Output } from '@angular/core';
 import * as L from 'leaflet';
 import { icon, Marker } from 'leaflet';
+import { element } from 'protractor';
 
-const iconRetinaUrl = 'assets/marker-icon-2x.png';
-const iconUrl = 'assets/marker-icon.png';
-const shadowUrl = 'assets/marker-shadow.png';
+
+const iconUrl = '../assets/203-2036956_location-map-pins-png-pin-icon-clipart.png';
+
 const iconDefault = icon({
-  iconRetinaUrl,
+
   iconUrl,
-  shadowUrl,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
+
+  iconSize: [40, 40],
 });
 Marker.prototype.options.icon = iconDefault;
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css'],
+  outputs: ['notesChange'],
 })
 export class MapComponent implements OnInit {
   
   
   
-  
+  private markers = [];
   private map;
   notes:Note[];
   places:Place[];
-
-
+  selectedNotes:Note[] =[];
+  @Output() notesChange= new EventEmitter();
 
   ngAfterContentInit(): void {
     this.initMap();
@@ -45,15 +43,67 @@ export class MapComponent implements OnInit {
     {placeID:2,
       placeName:"Suzhou",
     center:[31.29, 120.58]}
-    ]
+    ];
+
+    
+
+    this.notes = [{
+      url:"https://www.youtube.com/embed/2Mf9oXqxJ4s",
+      author: "David",
+      description:"Beijing is interesting" ,
+      placeID:1,
+      label:['History','Palace'],
+      center:[39.90, 116.40]
+
+    },{
+      url:"https://www.youtube.com/embed/RTbFz7zTWFA",
+      author: "Bob",
+      description:"Beijing is a nice place" ,
+      placeID:1,
+      label:['History','Palace'],
+      center:[39.90, 116.40]
+    },{
+      url:"https://www.youtube.com/embed/SdsxV818EDk",
+      author: "Alic",
+      description:"Suzhou is a nice place" ,
+      placeID:2,
+      label:['History','Palace'],
+      center:[31.29, 120.58]
+    },{
+      url:"https://www.youtube.com/embed/SdsxV818EDk",
+      author: "Tom",
+      description:"Suzhou is interesting" ,
+      placeID:2,
+      label:['History','Palace'],
+      center:[31.29, 120.58]
+    }
+    
+    ];
 
 
- L.marker(this.places[0].center).addTo(this.map);
-
+    
+    this.places.forEach(element => {
+          
+      this.markers.push(L.marker(element.center).addTo(this.map));
+    });
+    this.markers.forEach(element => {
+      element.on('click',this.clickMarkerCallback);
+    });
 
 
   }
   
+  clickMarkerCallback(e){
+    console.log(e);
+    this.selectedNotes = [];
+    this.selectedNotes=this.notes.filter(
+      note=>note.center[0] == e.latlng.lat && note.center[1] == e.latlng.lng 
+    ) 
+    this.notesChange.emit(this.selectedNotes);
+    
+  }
+
+
   private initMap(): void {
 
 
@@ -87,7 +137,9 @@ export class MapComponent implements OnInit {
 
 
   title="";
-  constructor() { }
+  constructor() { 
+    this.clickMarkerCallback = this.clickMarkerCallback.bind(this);
+  }
 
   ngOnInit(): void {
     
@@ -98,14 +150,15 @@ export class MapComponent implements OnInit {
 
 
 }
-interface Note {
+export interface Note {
   url:string;
-  author: string;
+  author:string;
   description: string;
   placeID: number;
-
+  label:string[];
+  center:[number,number];
 }
-interface Place{
+export interface Place{
   placeID:number;
   placeName:string;
   center:[number,number];

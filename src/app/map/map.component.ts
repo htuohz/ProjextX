@@ -87,13 +87,13 @@ export class MapComponent implements OnInit {
       this.markers.push(L.marker(element.center).addTo(this.map));
     });
     this.markers.forEach(element => {
-      element.on('click',this.clickMarkerCallback);
+      element.on('click',this.clickMarkerHandler);
     });
-
+    this.map.on('click',this.clickMapHandler)
 
   }
   
-  clickMarkerCallback(e){
+  clickMarkerHandler(e){
     console.log(e);
     this.selectedNotes = [];
     this.selectedNotes=this.notes.filter(
@@ -102,14 +102,17 @@ export class MapComponent implements OnInit {
     this.notesChange.emit(this.selectedNotes);
     
   }
-
+  clickMapHandler(){
+    this.selectedNotes = [];
+    this.notesChange.emit(this.selectedNotes);
+  }
 
   private initMap(): void {
 
 
     
     this.map = L.map('map', {
-      zoom: 13,
+      zoom: 4,
       center:[39.9042, 116.4074]
     });
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -138,7 +141,8 @@ export class MapComponent implements OnInit {
 
   title="";
   constructor() { 
-    this.clickMarkerCallback = this.clickMarkerCallback.bind(this);
+    this.clickMapHandler = this.clickMapHandler.bind(this);
+    this.clickMarkerHandler = this.clickMarkerHandler.bind(this);
   }
 
   ngOnInit(): void {

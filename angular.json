@@ -140,5 +140,8 @@
       }
     }
   },
-  "defaultProject": "travelApp"
+  "defaultProject": "travelApp",
+  "cli": {
+    "analytics": "b32366fe-68b7-4e24-befb-f2a02d194cda"
+  }
 }

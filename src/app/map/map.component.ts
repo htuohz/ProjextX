@@ -52,7 +52,7 @@ export class MapComponent implements OnInit {
       author: "David",
       description:"Beijing is interesting" ,
       placeID:1,
-      label:['History','Palace'],
+      tags:['History','Palace'],
       center:[39.90, 116.40]
 
     },{
@@ -60,21 +60,21 @@ export class MapComponent implements OnInit {
       author: "Bob",
       description:"Beijing is a nice place" ,
       placeID:1,
-      label:['History','Palace'],
+      tags:['History','Palace'],
       center:[39.90, 116.40]
     },{
       url:"https://www.youtube.com/embed/SdsxV818EDk",
       author: "Alic",
       description:"Suzhou is a nice place" ,
       placeID:2,
-      label:['History','Palace'],
+      tags:['History','Palace'],
       center:[31.29, 120.58]
     },{
       url:"https://www.youtube.com/embed/SdsxV818EDk",
       author: "Tom",
       description:"Suzhou is interesting" ,
       placeID:2,
-      label:['History','Palace'],
+      tags:['History','Palace'],
       center:[31.29, 120.58]
     }
     
@@ -159,7 +159,7 @@ export interface Note {
   author:string;
   description: string;
   placeID: number;
-  label:string[];
+  tags:string[];
   center:[number,number];
 }
 export interface Place{
